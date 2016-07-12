@@ -1,0 +1,262 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+<style type="text/css">
+#instructions-header, legend.office-header {
+  cursor: pointer;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+<script>
+var officeCount = 0;
+function addForm() {
+  var newOffice = $("#form-prototype fieldset").clone()
+      header = $(newOffice).find(".office-header");
+
+  header.click(function(evt) {
+      $(this).find(".open-indicator").toggle();
+      $(this).find(".closed-indicator").toggle();
+      $(this).next(".office-inputs").toggle();
+  });
+  $(newOffice).find("input[name=name]").change(function(evt) {
+      header.find('.office-title').text($(this).val() || "District Office");
+  });
+  newOffice.appendTo("#offices");
+  officeCount += 1;
+  $("#district-offices-form input[name=office_count]").val(officeCount);
+}
+$(function() {
+  addForm();  // add initial form
+
+  $("#add-another").click(function(evt) {
+    evt.preventDefault();
+    $("#district-offices-form .office .office-inputs").hide();
+    $("#district-offices-form .office .open-indicator").hide();
+    $("#district-offices-form .office .closed-indicator").show();
+
+    addForm();
+  });
+
+  $("#instructions-header").click(function(evt) {
+    evt.preventDefault();
+    $(this).find(".open-indicator").toggle();
+    $(this).find(".closed-indicator").toggle();
+    $("#instructions").toggle();
+  });
+});
+</script>
+</head>
+<body>
+    <div class="container">
+
+        <div class="row">
+            <div class="col-md-9">
+                <h1>${name} District Offices</h1>
+                <p>URL: <a href="${url}" target="_blank">${url}</a></p>
+            </div>
+
+            <div class="col-md-8">
+                <h2 id="instructions-header">Instructions 
+                    <span class="open-indicator" style="display: none;">&#x25be;</span>
+                    <span class="closed-indicator" >&#x25b8;</span>
+                </h2>
+                <div id="instructions" style="display: none;">
+                    <p>Your task is to collect data for the district offices of
+                    elected representatives of the United States Congress.
+                    <b>You will earn a bonus for each office entered after
+                    the first.</b></p>
+
+                    <p>To do this, open 
+                    <a target=_blank href="${url}">the legislator's website</a>
+                    and look for "District Offices". These can usually be
+                    found <b>at the bottom of the page</b>, or on a sub-page
+                    labeled <b>Offices</b> or <b>Contact</b>. </p>
+
+                    <p>Every legislator should have at least one office, 
+                    some may have as many as ten. Please enter all available
+                    information for each office.</p>
+
+                    <p>Not all offices will have information for every field,
+                    but please do enter whatever information is available.
+                    <b>HITs missing offices or fields for which data is 
+                    listed on the legislator's website will be rejected.</b></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8">
+                <form id="district-offices-form" class="form-horizontal" role="form" method="">
+                    <input type="hidden" name="url" value="${url}" />
+                    <input type="hidden" name="id" value="${id}" />
+                    <input type="hidden" value="0" name="office_count" />
+
+                    <div id="offices"></div>
+
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="pull-right">
+                                <button id="add-another" type="submit" class="btn btn-default">&#x2795; Add Another</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-primary">Done</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </div>
+
+    <div id="form-prototype" style="display: none;">
+        <fieldset class="office">
+
+            <legend class="office-header">
+                <span class="office-title">District Office</span>
+                <span class="open-indicator">&#x25be;</span>
+                <span class="closed-indicator" style="display: none;">&#x25b8;</span>
+            </legend>
+
+            <div class="office-inputs">
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="name">Office name</label>
+                    <div class="col-sm-9">
+                        <input name="name" type="text" placeholder="Pleasantville Office" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="address1">Address Line 1</label>
+                    <div class="col-sm-9">
+                        <input name="address" type="text" placeholder="123 Main St." class="form-control">
+                        <span class="help-block">Street Address</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="address2">Address Line 2</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="address2" placeholder="Suite 100" class="form-control">
+                        <span class="help-block">Building, suite, unit, floor, etc.</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="textinput">City</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="city" placeholder="Pleasantville" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="state">State</label>
+                    <div class="col-sm-2">
+                        <input type="text" name="state" placeholder="NY" class="form-control"
+                                                                         maxlength="2" list="state_abbr">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="zip">ZIP Code</label>
+                    <div class="col-sm-4">
+                        <input type="text" name="zip" placeholder="12345" class="form-control"
+                                                                          maxlength="10">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="phone">Phone</label>
+                    <div class="col-sm-9">
+                        <input type="tel" name="phone" placeholder="510-555-1234" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="fax">Fax</label>
+                    <div class="col-sm-9">
+                        <input type="tel" name="fax" placeholder="510-555-5678" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label" for="hours">Hours</label>
+                    <div class="col-sm-9">
+                        <input type="text" name="hours" placeholder="Mon-Fri 9am-2pm (optional)" class="form-control">
+                    </div>
+                </div>
+
+            </div>
+        </fieldset>
+    </div>
+
+    <datalist id="state_abbr">
+        <option value="AL">
+        <option value="AK">
+        <option value="AZ">
+        <option value="AR">
+        <option value="CA">
+        <option value="CO">
+        <option value="CT">
+        <option value="DC">
+        <option value="DE">
+        <option value="FL">
+        <option value="GA">
+        <option value="HI">
+        <option value="ID">
+        <option value="IL">
+        <option value="IN">
+        <option value="IA">
+        <option value="KS">
+        <option value="KY">
+        <option value="LA">
+        <option value="ME">
+        <option value="MD">
+        <option value="MA">
+        <option value="MI">
+        <option value="MN">
+        <option value="MS">
+        <option value="MO">
+        <option value="MT">
+        <option value="NE">
+        <option value="NV">
+        <option value="NH">
+        <option value="NJ">
+        <option value="NM">
+        <option value="NY">
+        <option value="NC">
+        <option value="ND">
+        <option value="OH">
+        <option value="OK">
+        <option value="OR">
+        <option value="PA">
+        <option value="RI">
+        <option value="SC">
+        <option value="SD">
+        <option value="TN">
+        <option value="TX">
+        <option value="UT">
+        <option value="VT">
+        <option value="VA">
+        <option value="WA">
+        <option value="WV">
+        <option value="WI">
+        <option value="WY">
+    </datalist>
+
+</body>
+</html>
