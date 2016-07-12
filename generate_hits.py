@@ -53,7 +53,7 @@ def get_legislators(data, predicates):
 
     
 def generate_header():
-    return "id name url".split()
+    return "id name state url".split()
 
 
 def generate_row(record):
