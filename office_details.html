@@ -1,0 +1,93 @@
+<style type="text/css">div.form-group {
+  overflow: auto;
+}
+</style>
+<!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" />
+<section class="container" id="DataCollection" style="margin-bottom:15px; padding: 10px 10px; font-family: Verdana, Geneva, sans-serif; color:#333333; font-size:0.9em;">
+<div class="row">
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Instructions</strong></div>
+
+<div class="panel-body">
+<div class="col-xs-6 col-md-6">
+<table>
+	<tbody>
+		<tr>
+			<td><label>Legislator:</label></td>
+			<td>${name}</td>
+		</tr>
+		<tr>
+			<td><label>URL:</label></td>
+			<td><a href="${url}">${url}</a></td>
+		</tr>
+		<tr>
+			<td><label>Office:</label></td>
+			<td>${office}</td>
+		</tr>
+	</tbody>
+</table>
+</div>
+
+<div class="col-xs-6 col-md-6"><!-- Instructions -->
+<p>Find the contact details for a legislator&#39;s district office.</p>
+
+<ul>
+	<li>Go to the legislator&#39;s home page:&nbsp;<a href="${url}" target="_blank">${url}</a>.</li>
+	<li>Find information for the specified&nbsp;district office, <strong>&quot;${office}&quot;</strong>.</li>
+	<li>It is usually on the&nbsp;<strong>bottom of the page</strong>, or on a sub-page called&nbsp;<strong>Office Locations</strong>&nbsp;or&nbsp;<strong>Contact Us</strong>.</li>
+	<li>Fill out the form below with the details for that office.</li>
+	<li>Some fields, such as Suite, Fax, and Hours may not apply to every office, but please&nbsp;include whatever information is available.</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div class="row col-xs-12 col-md-12">
+<div class="form-group"><label class="col-sm-2 control-label" for="address1">Address Line 1</label>
+
+<div class="col-sm-10"><input class="form-control" name="address" placeholder="123 Main St." type="text" /> <span class="help-block">Street Address</span></div>
+</div>
+
+<div class="form-group"><label class="col-sm-2 control-label" for="address2">Address Line 2</label>
+
+<div class="col-sm-10"><input class="form-control" name="address2" placeholder="Suite 100" type="text" /> <span class="help-block">Building, suite, unit, floor, etc.</span></div>
+</div>
+
+<div class="form-group"><label class="col-sm-2 control-label" for="textinput">City</label>
+
+<div class="col-sm-10"><input class="form-control" name="city" placeholder="Pleasantville" type="text" /></div>
+</div>
+<datalist id="state_abbr"><option value="AL"></option><option value="AK"></option><option value="AZ"></option><option value="AR"></option><option value="CA"></option><option value="CO"></option><option value="CT"></option><option value="DC"></option><option value="DE"></option><option value="FL"></option><option value="GA"></option><option value="HI"></option><option value="ID"></option><option value="IL"></option><option value="IN"></option><option value="IA"></option><option value="KS"></option><option value="KY"></option><option value="LA"></option><option value="ME"></option><option value="MD"></option><option value="MA"></option><option value="MI"></option><option value="MN"></option><option value="MS"></option><option value="MO"></option><option value="MT"></option><option value="NE"></option><option value="NV"></option><option value="NH"></option><option value="NJ"></option><option value="NM"></option><option value="NY"></option><option value="NC"></option><option value="ND"></option><option value="OH"></option><option value="OK"></option><option value="OR"></option><option value="PA"></option><option value="RI"></option><option value="SC"></option><option value="SD"></option><option value="TN"></option><option value="TX"></option><option value="UT"></option><option value="VT"></option><option value="VA"></option><option value="WA"></option><option value="WV"></option><option value="WI"></option><option value="WY"></option></datalist>
+
+<div class="form-group"><label class="col-sm-2 control-label" for="state">State</label>
+
+<div class="col-sm-2"><input class="form-control" list="state_abbr" maxlength="2" name="state" type="text" value="${state}" /></div>
+</div>
+
+<div class="form-group"><label class="col-sm-2 control-label" for="zip">ZIP Code</label>
+
+<div class="col-sm-2"><input class="form-control" maxlength="10" name="zip" placeholder="12345" type="text" /></div>
+</div>
+
+<div class="form-group"><label class="col-sm-2 control-label" for="phone">Phone</label>
+
+<div class="col-sm-10"><input class="form-control" name="phone" placeholder="510-555-1234" type="tel" /></div>
+</div>
+
+<div class="form-group"><label class="col-sm-2 control-label" for="fax">Fax</label>
+
+<div class="col-sm-10"><input class="form-control" name="fax" placeholder="510-555-5678" type="tel" /></div>
+</div>
+
+<div class="form-group"><label class="col-sm-2 control-label" for="hours">Hours</label>
+
+<div class="col-sm-10"><input class="form-control" name="hours" placeholder="Mon-Fri 9am-2pm (optional)" type="text" /></div>
+</div>
+</div>
+</div>
+</section>
+<!-- close container -->
+<style type="text/css">td { font-size:1.0em; padding: 5px 5px; }
+</style>
+

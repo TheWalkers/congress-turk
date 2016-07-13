@@ -1,0 +1,42 @@
+<!-- Bootstrap v3.0.3 -->
+<link href="https://s3.amazonaws.com/mturk-public/bs30/css/bootstrap.min.css" rel="stylesheet" />
+<section class="container" id="DataCollection" style="margin-bottom:15px; padding: 10px 10px; font-family: Verdana, Geneva, sans-serif; color:#333333; font-size:0.9em;">
+<div class="row col-xs-12 col-md-12"><!-- Instructions -->
+<div class="panel panel-primary">
+<div class="panel-heading"><strong>Instructions</strong></div>
+
+<div class="panel-body">
+<p>Enter a list of cities where a legislator has district offices.</p>
+
+<ul>
+	<li>Go to the legislator&#39;s home page: <a href="${url}" target="_blank">${url}</a>.</li>
+	<li>Find a list of district offices. They are usually on the <strong>bottom of the page</strong>, or on a sub-page called <strong>Office Locations</strong> or <strong>Contact Us</strong>.</li>
+	<li>Enter the <strong>name of each office</strong>, or the city the office is located in, if no name is provided.</li>
+	<li>Enter<strong style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;">&nbsp;one office per line</strong><span style="font-family: Verdana, Geneva, sans-serif; font-size: 11.7px; line-height: 20.8px;">.</span></li>
+	<li><strong>Do not </strong>include offices in Washington, D.C.</li>
+</ul>
+</div>
+</div>
+
+<table>
+	<tbody>
+		<tr>
+			<td><label>Legislator name:</label></td>
+			<td>${name}</td>
+		</tr>
+		<tr>
+			<td><label>URL:</label></td>
+			<td><a href="${url}" target="_blank">${url}</a></td>
+		</tr>
+	</tbody>
+</table>
+&nbsp;
+
+<div>
+<div class="form-group"><label>District Offices:</label><textarea class="form-control" cols="40" name="district_offices" rows="10"></textarea></div>
+</div>
+</div>
+</section>
+<!-- close container -->
+<style type="text/css">td { font-size:1.0em; padding: 5px 5px; }
+</style>
