@@ -19,7 +19,7 @@
 		</tr>
 		<tr>
 			<td><label>URL:</label></td>
-			<td><a href="${url}">${url}</a></td>
+			<td><a href="${url}" target="_blank">${url}</a></td>
 		</tr>
 		<tr>
 			<td><label>Office:</label></td>
@@ -39,6 +39,9 @@
 	<li>Fill out the form below with the details for that office.</li>
 	<li>Some fields, such as Suite, Fax, and Hours may not apply to every office, but please&nbsp;include whatever information is available.</li>
 </ul>
+</div>
+<div class="col-xs-12 col-md-12">
+<p><a id="show-example" target="_blank" href="https://s3.amazonaws.com/demo.actionkit.com/images/office_details.png"><b>Show Example</b></a></p>
 </div>
 </div>
 </div>
@@ -90,4 +93,11 @@
 <!-- close container -->
 <style type="text/css">td { font-size:1.0em; padding: 5px 5px; }
 </style>
-
+<script>
+document.getElementById("show-example").addEventListener('click', 
+    function (evt) {
+        evt.preventDefault();
+        window.open(this.href, "Office Details Example", "width=800");
+    }
+);
+</script>
