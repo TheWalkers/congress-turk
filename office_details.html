@@ -37,11 +37,12 @@
 	<li>Find information for the specified&nbsp;district office, <strong>&quot;${office}&quot;</strong>.</li>
 	<li>It is usually on the&nbsp;<strong>bottom of the page</strong>, or on a sub-page called&nbsp;<strong>Office Locations</strong>&nbsp;or&nbsp;<strong>Contact Us</strong>.</li>
 	<li>Fill out the form below with the details for that office.</li>
-	<li>Some fields, such as Suite, Fax, and Hours may not apply to every office, but please&nbsp;include whatever information is available.</li>
+	<li>Some fields, such as Building, Suite, Fax, and Hours may not apply to every office, but please&nbsp;include whatever information is available.</li>
 </ul>
 </div>
+
 <div class="col-xs-12 col-md-12">
-<p><a id="show-example" target="_blank" href="https://s3.amazonaws.com/demo.actionkit.com/images/office_details.png"><b>Show Example</b></a></p>
+<p><a href="https://s3.amazonaws.com/demo.actionkit.com/images/office_details.png" id="show-example" target="_blank"><b>Show Example</b></a></p>
 </div>
 </div>
 </div>
@@ -52,10 +53,17 @@
 <div class="col-sm-10"><input class="form-control" name="address" placeholder="123 Main St." type="text" /> <span class="help-block">Street Address</span></div>
 </div>
 
-<div class="form-group"><label class="col-sm-2 control-label" for="address2">Address Line 2</label>
-
-<div class="col-sm-10"><input class="form-control" name="address2" placeholder="Suite 100" type="text" /> <span class="help-block">Building, suite, unit, floor, etc.</span></div>
+<div class="form-group"><label class="col-sm-2 control-label" for="building">Building</label>
+<div class="col-sm-10"><input class="form-control" name="building" placeholder="County Courthouse" type="text" />
 </div>
+</div>
+
+<div class="form-group"><label class="col-sm-2 control-label" for="suite">Suite</label>
+<div class="col-sm-10"><input class="form-control" name="suite" placeholder="Suite 100" type="text" />
+<span class="help-block">Suite, unit, number, floor, etc.</span>
+</div>
+</div>
+
 
 <div class="form-group"><label class="col-sm-2 control-label" for="textinput">City</label>
 
@@ -85,7 +93,7 @@
 
 <div class="form-group"><label class="col-sm-2 control-label" for="hours">Hours</label>
 
-<div class="col-sm-10"><input class="form-control" name="hours" placeholder="Mon-Fri 9am-2pm (optional)" type="text" /></div>
+<div class="col-sm-10"><input class="form-control" name="hours" placeholder="Mon-Fri 9am-2pm" type="text" /></div>
 </div>
 </div>
 </div>
