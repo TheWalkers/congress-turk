@@ -21,6 +21,7 @@ def convert_row(row):
         yield {'id': row['Input.id'],
                'url': row['Input.url'],
                'name': row['Input.name'],
+               'state': row['Input.state'],
                'office': office.strip()}
 
 def split_to_office_hits():
