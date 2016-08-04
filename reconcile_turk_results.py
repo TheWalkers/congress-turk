@@ -44,6 +44,9 @@ class TurkResultReconciler(object):
 
         self.rows = rows
 
+        if args.count:
+            self.print_count()
+
     def row_key(self, row):
         return row['AssignmentId']
 
@@ -59,6 +62,9 @@ class TurkResultReconciler(object):
         parser.add_argument("review",
             help="Reviewed CSV file to re-upload to Mechanical Turk",
             type=argparse.FileType('a+', 0))
+        parser.add_argument("-c", "--count",
+            help="Count groups and number needing reconciliation",
+            action="store_true")
 
         return parser.parse_args()
 
@@ -179,6 +185,14 @@ class TurkResultReconciler(object):
     def reconcile_results(self):
         for _, group in self.combine_by_hit():
             self.reconcile_group(group)
+
+    def print_count(self):
+        equal = 0
+        for count, (_, group) in enumerate(self.combine_by_hit(), 1):
+            if self.equal(*tuple(group)):
+                equal += 1
+        print "%d same / %d total (%d need reconciliation)" %(
+                equal, count, count - equal)
 
 
 if __name__ == '__main__':
