@@ -19,6 +19,9 @@ def get_predicates(args):
         names = [n.lower() for n in args.names]
         predicates.append(lambda r: r['name']['last'].lower() in names)
 
+    if args.type:
+        predicates.append(lambda r: r['terms'][-1]['type'] == args.type)
+
     if args.districts:
         districts = set(args.districts)
         def is_district(record):
@@ -91,6 +94,7 @@ def get_args():
 
     legislators = parser.add_argument_group('Choose legislators')
     legislators.add_argument("-a", "--all", action="store_true")
+    legislators.add_argument("-t", "--type", action="store", help="Chamber type ('rep' or 'sen')")
     legislators.add_argument("--names", nargs="*", help="Last names of legislators (may match multiple)")
     legislators.add_argument("--seats", nargs="*",
         help="Seats of Senator, e.g. WA_1 or WA_2")
@@ -99,7 +103,7 @@ def get_args():
 
     args = parser.parse_args()
 
-    if not any([args.all, args.names, args.seats, args.districts]):
+    if not any([args.all, args.type, args.names, args.seats, args.districts]):
         parser.error("Need at least one of --all, --names, --seats, --districts.")
 
     return args 
