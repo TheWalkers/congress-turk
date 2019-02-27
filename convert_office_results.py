@@ -15,7 +15,7 @@ parser.add_argument("ids_source",
     type=argparse.FileType('r'))
 parser.add_argument("destination",
     help="destination for results (legislators-district-offices.yaml)",
-    type=argparse.FileType('w', 0),
+    type=argparse.FileType('w'),
     default='-')
 args = parser.parse_args()
 

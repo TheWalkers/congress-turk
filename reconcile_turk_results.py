@@ -58,10 +58,10 @@ class TurkResultReconciler(object):
             type=argparse.FileType('r'))
         parser.add_argument("destination",
             help="destination for CSV file of reconciled results",
-            type=argparse.FileType('a+', 0))
+            type=argparse.FileType('a+'))
         parser.add_argument("review",
             help="Reviewed CSV file to re-upload to Mechanical Turk",
-            type=argparse.FileType('a+', 0))
+            type=argparse.FileType('a+'))
         parser.add_argument("-c", "--count",
             help="Count groups and number needing reconciliation",
             action="store_true")
@@ -96,7 +96,7 @@ class TurkResultReconciler(object):
 
     def tempfile_edit(self, row):
         # from http://stackoverflow.com/a/6309753/174653
-        initial_message = self.format_for_diff(row)
+        initial_message = self.format_for_diff(row).encode('utf-8')
         with tempfile.NamedTemporaryFile(suffix=".tmp") as tf:
             tf.write(initial_message)
             tf.flush()
@@ -106,8 +106,8 @@ class TurkResultReconciler(object):
                 row.update(yaml.load(f))
 
     def print_diff(self, row1, row2):
-        print "Discrepancy for {HITId}".format(**row1)
-        print yaml.dump(self.inputs(row1), default_flow_style=False)
+        print("Discrepancy for {HITId}".format(**row1))
+        print(yaml.dump(self.inputs(row1), default_flow_style=False))
 
         formatted = [self.format_for_diff(r).split('\n') for r in [row1, row2]]
         diff = unified_diff(*formatted, n=20)
@@ -117,11 +117,11 @@ class TurkResultReconciler(object):
                 continue
             
             if s.startswith('-'):
-                print colored("{:<40}".format(s[1:]), 'red')
+                print(colored("{:<40}".format(s[1:]), 'red'))
             elif s.startswith('+'):
-                print colored("{:<40}".format(s[1:]), 'blue')
+                print(colored("{:<40}".format(s[1:]), 'blue'))
             elif s.startswith(' '):
-                print s[1:]
+                print(s[1:])
                 #print "{:<40} {:<40}".format(s[1:], s[1:])
 
     def equal(self, *rows):
@@ -131,7 +131,7 @@ class TurkResultReconciler(object):
     def prompt_reconcile(self, row1, row2):
         while True:
             self.print_diff(row1, row2)
-            answer = raw_input("Fix (1/2/e1/e2/R1/R2/o/?): ")
+            answer = input("Fix (1/2/e1/e2/R1/R2/o/?): ")
             if answer.isdigit():
                 return {'1': row1, '2': row2}[answer]
             elif answer == 'o':
@@ -139,14 +139,14 @@ class TurkResultReconciler(object):
             elif answer.startswith('e'):
                 edit = {'1': row1, '2': row2}[answer[1]]
                 self.tempfile_edit(edit)
-                print edit
+                print(edit)
             elif answer.startswith('R'):
-                reason = raw_input("Reason this entry is rejected: ")
+                reason = input("Reason this entry is rejected: ")
                 rejected = {'1': row1, '2': row2}[answer[1]]
                 rejected['Approve'] = ''
                 rejected['Reject'] = reason
             elif answer == '?':
-                print """
+                print("""
                     1  -- choose left option
                     2  -- choose right '+' option
                     e1 -- edit left option
@@ -155,16 +155,16 @@ class TurkResultReconciler(object):
                     R2 -- REJECT right option
                     o  -- open URL in browser
                     ?  -- this help text
-                """
+                """)
             else:
-                print "Oops! Unsupported option {}".format(answer)
+                print("Oops! Unsupported option {}".format(answer))
 
     def reconcile_group(self, group):
         """
         For a group of HIT results, let the user reconcile any differences.
         """
         group = tuple(group)
-        assert len(group) == 2, "Only works on pairs"
+        assert len(group) == 2, "Only works on pairs %r" % group
 
         row1, row2 = group
         row1['Approve'] = 'x'
@@ -191,8 +191,8 @@ class TurkResultReconciler(object):
         for count, (_, group) in enumerate(self.combine_by_hit(), 1):
             if self.equal(*tuple(group)):
                 equal += 1
-        print "%d same / %d total (%d need reconciliation)" %(
-                equal, count, count - equal)
+        print("%d same / %d total (%d need reconciliation)" %
+              (equal, count, count - equal))
 
 
 if __name__ == '__main__':

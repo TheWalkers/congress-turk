@@ -9,7 +9,7 @@ def parse_args():
         help="CSV results of MTurk district office list HITs.")
     parser.add_argument("-o", "--out",
         help="destination for CSV file",
-        type=argparse.FileType('wb', 0), 
+        type=argparse.FileType('w'),
         default='-')  # '-' => stdout
 
     return parser.parse_args()

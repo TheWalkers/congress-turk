@@ -63,7 +63,6 @@ def generate_row(record):
     id = record['id']['bioguide']
     name = record['name']
     name = name.get('official_name', ' '.join([name['first'], name['last']]))
-    name = name.encode('utf-8')
     term = record['terms'][-1]  # current term
     hon = 'Sen.' if term['type'] == 'sen' else 'Rep.'
     name = ' '.join([hon, name])
@@ -89,7 +88,7 @@ def get_args():
         help="source for legislator data (e.g., legislators-current.yaml)")
     parser.add_argument("-o", "--out",
         help="destination for CSV file",
-        type=argparse.FileType('wb', 0), 
+        type=argparse.FileType('w'),
         default='-')  # '-' => stdout
 
     legislators = parser.add_argument_group('Choose legislators')

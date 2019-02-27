@@ -11,7 +11,7 @@ class ListTaskResultReconciler(TurkResultReconciler):
         offices = [office_suffix.sub('', o) for o in offices]
         dc = re.compile('washington,? d\.?c\.?', re.I)
         offices = [o for o in offices if not dc.match(o)]
-        offices.sort(key=string.lower)
+        offices.sort(key=lambda s: s.lower())
         row['Answer.district_offices'] = offices
         return row
 
