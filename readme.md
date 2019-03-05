@@ -167,6 +167,20 @@ Convert Detail Results
     congress-legislators/legislator-district-offices.yaml`
 
 
+Normalization and Geocoding
+---------------------------
+
+As a preprocessing step for detail reconciliation, this program can use
+smarty streets to normalize address fields and geocode to a latitude and
+longitude. This requires an API account, and credentials should be stored in
+a `smarty_creds.py` file like this:
+
+```
+SMARTY_AUTH_ID = xxx
+SMARTY_AUTH_TOKEN = xxx
+```
+
+
 Notes
 -----
 
@@ -178,7 +192,6 @@ Areas for improvement
 ---------------------
 
 - add in other id types besides bioguide
-- pre-reconciliation address normalization via geocoding service
 - normalize / skip hours
 - automate more of this via Mech Turk API
 - hand more of this (e.g. reconciliation) off to workers 
