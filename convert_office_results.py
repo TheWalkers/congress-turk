@@ -4,24 +4,32 @@ import re
 import rtyaml as yaml
 from collections import defaultdict, OrderedDict
 from itertools import groupby, count
+from operator import itemgetter
 
-parser = argparse.ArgumentParser(description=
-    'Convert results of a "details" task to yaml')
-parser.add_argument("source",
+parser = argparse.ArgumentParser(
+    description='Convert results of a "details" task to yaml')
+
+parser.add_argument(
+    "source",
     help="Reconciled CSV results of MTurk HITs.",
     type=argparse.FileType('r'),
     default='-')
-parser.add_argument("ids_source",
+
+parser.add_argument(
+    "ids_source",
     help=("Source from which to get other ids (govtrack, thomas)"
           "(legistators-current.yaml"),
     type=argparse.FileType('r'))
-parser.add_argument("destination",
+
+parser.add_argument(
+    "destination",
     help="destination for results (legislators-district-offices.yaml)",
     type=argparse.FileType('w'),
     default='-')
+
 args = parser.parse_args()
 
-by_id = lambda row: row.get('Input.id')
+by_id = itemgetter('Input.id')
 
 rows = list(csv.DictReader(args.source))
 
@@ -45,6 +53,7 @@ def reorder_office(office):
 
 
 office_ids = defaultdict(count)
+
 
 def id_office(bioguide_id, office):
 
@@ -86,9 +95,9 @@ for key, group in grouped:
         id_office(key, office)
 
         if 'latitude' in item:
-            office['latitude'] = item['latitude']
+            office['latitude'] = float(item['latitude'])
         if 'longitude' in item:
-            office['longitude'] = item['longitude']
+            office['longitude'] = float(item['longitude'])
 
         if office.get('suite') and re.match(r'^\d+$', office['suite']):
             office['suite'] = 'Suite ' + office['suite']
