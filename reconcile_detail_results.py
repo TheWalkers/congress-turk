@@ -35,7 +35,7 @@ class DetailTaskResultReconciler(TurkResultReconciler):
     @property
     def output_fields(self):
         fieldnames = self.reader.fieldnames
-        if normalize_address:
+        if normalize_address and 'latitude' not in fieldnames:
             fieldnames += ['latitude', 'longitude']
         return fieldnames
 
