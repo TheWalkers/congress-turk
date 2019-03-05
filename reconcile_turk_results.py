@@ -1,19 +1,16 @@
 import argparse
 import csv
-import re
 import os
-import string
 import tempfile
 import yaml
-from collections import OrderedDict
 from difflib import unified_diff
 from itertools import groupby
+from operator import itemgetter
 from subprocess import call, check_call
 
 from termcolor import colored
 
 EDITOR = os.environ.get('EDITOR', 'vim')
-
 
 
 class TurkResultReconciler(object):
@@ -73,7 +70,7 @@ class TurkResultReconciler(object):
         return self.reader.fieldnames
 
     def combine_by_hit(self, key_column='HITId'):
-        key = lambda r: r.get(key_column)
+        key = itemgetter(key_column)
         rows = sorted(self.rows, key=key)
         return groupby(rows, key=key)
 
@@ -90,7 +87,7 @@ class TurkResultReconciler(object):
 
     def inputs(self, row):
         return {f: row[f] for f in row.keys() if f.startswith('Input.')}
-        
+
     def format_for_diff(self, row):
         return yaml.dump(self.answers(row), default_flow_style=False)
 
@@ -101,7 +98,7 @@ class TurkResultReconciler(object):
             tf.write(initial_message)
             tf.flush()
             check_call([EDITOR, tf.name])
-           
+
             with open(tf.name) as f:
                 row.update(yaml.load(f))
 
@@ -115,14 +112,13 @@ class TurkResultReconciler(object):
         for s in diff:
             if s.strip() in ('---', '+++'):
                 continue
-            
+
             if s.startswith('-'):
                 print(colored("{:<40}".format(s[1:]), 'red'))
             elif s.startswith('+'):
                 print(colored("{:<40}".format(s[1:]), 'blue'))
             elif s.startswith(' '):
                 print(s[1:])
-                #print "{:<40} {:<40}".format(s[1:], s[1:])
 
     def equal(self, *rows):
         formatted = [self.format_for_diff(row).lower() for row in rows]
@@ -197,6 +193,3 @@ class TurkResultReconciler(object):
 
 if __name__ == '__main__':
     TurkResultReconciler().reconcile_results()
-
-
-

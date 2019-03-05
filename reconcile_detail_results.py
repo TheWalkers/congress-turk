@@ -1,6 +1,4 @@
 import re
-import string
-
 from reconcile_turk_results import TurkResultReconciler
 
 
@@ -30,8 +28,10 @@ def remove_empty(s):
         s = ''
     return s
 
+
 def remove_not_available(s):
     return re.sub(r'^n\s*\/\s*a$', '', s.strip(), flags=re.I)
+
 
 def normalize_phone(phone):
     return re.sub(r'.*(\d{3}).*(\d{3}).*(\d{4}).*', r'\1-\2-\3', phone)
@@ -62,4 +62,3 @@ class DetailTaskResultReconciler(TurkResultReconciler):
 
 if __name__ == '__main__':
     DetailTaskResultReconciler().reconcile_results()
-
