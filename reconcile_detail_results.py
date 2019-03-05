@@ -1,26 +1,12 @@
 import re
 from reconcile_turk_results import TurkResultReconciler
 
-
-def pyaddress_normalize(before):
-    if not before:
-        return before
-    try:
-        addr = parser.parse_address(before)
-    except (UnicodeDecodeError, address.address.InvalidAddressException), e:
-        #print "Error normalizing %s: %s" % (before, e)
-        return before
-    after = " ".join([f for f in
-                      (addr.house_number, addr.street_prefix,
-                       addr.street, addr.street_suffix) if f])
-    return after
-
 try:
-    import address  # https://github.com/SwoopSearch/pyaddress
-    parser = address.AddressParser()
-    normalize_address = pyaddress_normalize
+    from smarty_normalize import normalize_address
+
 except ImportError:
-    normalize_address = lambda s: s
+    print("smarty not found, not doing address normalization")
+    normalize_address = None
 
 
 def remove_empty(s):
@@ -30,6 +16,8 @@ def remove_empty(s):
 
 
 def remove_not_available(s):
+    if not s:
+        return s
     return re.sub(r'^n\s*\/\s*a$', '', s.strip(), flags=re.I)
 
 
@@ -42,11 +30,28 @@ class DetailTaskResultReconciler(TurkResultReconciler):
     FIELD_PROCESSORS = {
         'phone': [normalize_phone],
         'fax': [normalize_phone],
-        'address': [normalize_address],
     }
 
-    def equal(self, a, b):
-        return a['Answer.address'] == b['Answer.address']
+    @property
+    def output_fields(self):
+        fieldnames = self.reader.fieldnames
+        if normalize_address:
+            fieldnames += ['latitude', 'longitude']
+        return fieldnames
+
+    def tempfile_edit(self, row):
+        def addr(row):
+            return [row.get('Answer.' + f) for f in
+                    ['address', 'city', 'state', 'zip']]
+
+        orig_addr = addr(row)
+
+        super(DetailTaskResultReconciler, self).tempfile_edit(row)
+
+        # if address fields changed, normalize again
+        if normalize_address and addr(row) != orig_addr:
+            normalize_address(row)
+        return row
 
     def preprocessors(self, field):
         field = field.replace('Answer.', '')
@@ -57,6 +62,13 @@ class DetailTaskResultReconciler(TurkResultReconciler):
             for proc in self.preprocessors(field):
                 answer = proc(answer)
             row[field] = answer
+
+        if normalize_address:  # operates on whole row, handle separately
+            try:
+                normalize_address(row)
+            except Exception as e:
+                print("Error normalizing %r: %s" % (row, e))
+
         return row
 
 

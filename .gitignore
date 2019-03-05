@@ -1,3 +1,4 @@
 *.pyc
 *.csv
 *.yaml
+smarty_creds.py
