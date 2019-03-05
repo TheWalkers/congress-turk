@@ -29,7 +29,7 @@ class TurkResultReconciler(object):
         self.review = csv.DictWriter(args.review,
                                      fieldnames=self.output_fields)
 
-        rows = [self.preprocess_row(r) for r in self.reader]
+        rows = list(self.reader)
 
         if args.review.tell():
             args.review.seek(0)
@@ -42,7 +42,11 @@ class TurkResultReconciler(object):
         self.rows = rows
 
         if args.count:
+            self.rows = [self.preprocess_row(r) for r in self.rows]
             self.print_count()
+            self._preprocessed = True
+        else:
+            self._preprocessed = False
 
     def row_key(self, row):
         return row['AssignmentId']
@@ -161,6 +165,9 @@ class TurkResultReconciler(object):
         """
         group = tuple(group)
         assert len(group) == 2, "Only works on pairs %r" % group
+
+        if not self._preprocessed:
+            group = [self.preprocess_row(row) for row in group]
 
         row1, row2 = group
         row1['Approve'] = 'x'
