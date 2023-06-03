@@ -42,7 +42,7 @@ Mechanical Turk:
 
 The general process is:
 
-- set up list and detail tasks on <http://requester.turk.com/>
+- set up list and detail tasks on <http://requester.mturk.com/>
 - generate and upload list tasks
 - reconcile the results of list tasks
 - split list tasks into detail tasks and upload 
